@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spark-history-server-311-test
+spec:
+  containers:
+  - image: neosparkcontainerregistry.azurecr.io/spark:history-server-3.1.1
+    name: spark-history-server-311
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "128Mi"
+      limits:
+        cpu: "1000m"
+        memory: "256Mi"
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 18080
+      initialDelaySeconds: 60
+      timeoutSeconds: 30
+      periodSeconds: 60
+      failureThreshold: 3
+    ports:
+    - containerPort: 18080
+      name: http
+      protocol: TCP
